@@ -6,13 +6,13 @@ blueprint:
   source_url: https://github.com/nateprat/homeassistant-blueprints/blob/main/scene_transitions.yaml
   input:
     target_scene:
-      name: Scene to activate
-      description: Which scene is being activated
+      name: Scene(s) to activate
+      description: Which scene(s) are being activated
       selector:
         entity:
           domain:
             - scene
-          multiple: false
+          multiple: true
     transition_period:
       name: Transition period
       description: How long should the transition to activate the scene be
@@ -24,13 +24,6 @@ blueprint:
           unit_of_measurement: seconds
           mode: slider
           step: 0.5
-    target_icon:
-      name: Icon for script
-      selector:
-        entity:
-          domain:
-            - icon
-          multiple: false
 
 mode: restart
 
