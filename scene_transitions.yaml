@@ -1,0 +1,43 @@
+blueprint:
+  name: Transition to Scene
+  description: >-
+    A script to transition to a scene
+  domain: script
+  source_url: https://github.com/nateprat/homeassistant-blueprints/blob/main/scene_transitions.yaml
+  input:
+    target_scene:
+      name: Scene to activate
+      description: Which scene is being activated
+      selector:
+        entity:
+          domain:
+            - scene
+          multiple: false
+    transition_period:
+      name: Transition period
+      description: How long should the transition to activate the scene be
+      default: 3
+      selector:
+        number:
+          min: 0
+          max: 120
+          unit_of_measurements: seconds
+          mode: slider
+          step: 0.5
+    target_icon:
+      name: Icon for script
+      selector:
+        entity:
+          domain:
+            - icon
+          multiple: false
+
+mode: restart
+
+alias: " Activate {{ target_scene.name }} over {{ transition_period }} seconds" 
+sequence:
+  - service: scene.turn_on
+    data:
+      transition: "{{ transition_period }}"
+    target:
+      entity_id: "{{ target_scene }}"
