@@ -10,9 +10,7 @@ blueprint:
       description: Which scene(s) are being activated
       selector:
         entity:
-          domain:
-            - scene
-          multiple: true
+          domain: scene
     transition_period:
       name: Transition period
       description: How long should the transition to activate the scene be
@@ -25,12 +23,16 @@ blueprint:
           mode: slider
           step: 0.5
 
-mode: restart
+mode: queued
 
-alias: " Activate {{ target_scene.name }} over {{ transition_period }} seconds" 
+variables:
+  target_scene: !input target_scene
+  transition_period: !input transition_period
+
 sequence:
+  - alias: "Activate scene"
   - service: scene.turn_on
     data:
-      transition: "{{ transition_period }}"
+      transition: !input transition_period
     target:
-      entity_id: "{{ target_scene }}"
+      entity_id: !input target_scene
